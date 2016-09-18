@@ -52,6 +52,11 @@
               <label class="register-field-icon fui-window" for="reg-phone"></label>
             </div>
 
+            <div class="form-group">
+              <input type="text" class="form-control register-field" value="" placeholder="验证码" id="reg-code" />
+              <label for="reg-code"><img src="<?php echo "code"; ?>"></label>
+            </div>
+
             <a class="btn btn-primary btn-lg btn-block" href="#">注册</a>
             <!-- <a class="login-link" href="#">Lost your password?</a> -->
           </div>
@@ -61,10 +66,6 @@
     <div class="copyright">
         <p>Copyright © 2016 ICHARM lnc. All Rights Reserved</p>
     </div>
-
-
-
-
 
 
 

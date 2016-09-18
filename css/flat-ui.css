@@ -387,7 +387,7 @@ a:focus {
   position: absolute;
   top:25%;
   left: 34%;
-  height:350px;
+  height: autos;
   width: 32%;
   border-radius: 6px;
 }

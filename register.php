@@ -1,3 +1,9 @@
+<?php
+//require_once("inc/global.php");
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -53,8 +59,8 @@
             </div>
 
             <div class="form-group">
-              <input type="text" class="form-control register-field" value="" placeholder="验证码" id="reg-code" />
-              <label for="reg-code"><img src="<?php echo "code"; ?>"></label>
+              <input style="width:80%;display:inline-block;" type="text" class="form-control register-field" value="" placeholder="验证码" id="reg-code" />
+              <img src="inc/captcha.php">
             </div>
 
             <a class="btn btn-primary btn-lg btn-block" href="#">注册</a>

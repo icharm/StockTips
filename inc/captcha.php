@@ -1,12 +1,14 @@
 <?php
 
+
+session_start();
 //生成图片资源画布
 $image = imagecreatetruecolor(100, 30);
 $bgcolor = imagecolorallocate($image, 255, 255, 255);//#ffffff 纯白色
 imagefill($image, 0,0, $bgcolor);
 
 //添加随机验证码
-for($i; $i <4; $i++){
+/*for($i; $i <4; $i++){
 	$fontSize = 6;
 	$fontColor = imagecolorallocate($image,rand(0,120),rand(0,120),rand(0,120));
 	$fontContent = rand(0,9);
@@ -16,14 +18,16 @@ for($i; $i <4; $i++){
 	$y = rand(5, 10);
 
 	imagestring($image, $fontSize, $x, $y, $fontContent, $fontColor);
-}
-
+}*/
+$captchaCode = "";
 for($i; $i<4; $i++){
 	$fontSize = 6;
 	$fontColor = imagecolorallocate($image, rand(0,120), rand(0,120), rand(0,120));
 	//字典
 	$data = 'abcdefghijklmnopqrstuvwxyz0123456789';
 	$fontContent = substr($data, rand(0,strlen($data)),1);
+	//拼接验证码字符串
+	$captchaCode .= $fontContent;
 
 	$x = (100/4 * $i) +rand(5,10);
 	$y = rand(5, 10);
@@ -43,8 +47,8 @@ for($i=0; $i<3; $i++){
 	imageline($image, rand(1,99), rand(1,29), rand(1,29), rand(1,29), $lineColor);
 
 }
-
-
+$SESSION['authcode'] = $captchaCode;
+ob_clean(); 
 header('content-type: image/png');
 imagepng($image);
 imagedestroy($image);

@@ -1,6 +1,7 @@
 <?php
 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +63,7 @@
               <div style="width:100%;">
               <input style="width:78%;display:inline-block;" type="text" class="form-control login-field" value="" placeholder="验证码" id="reg-code" />
               <label style="margin-right:20%;" class="login-field-icon fui-check" for="reg-code"></label>
-              <img style="width:20%;height:38px;" src="inc/captcha.php">
+              <a href="inc/captcha.php?id="></a><img style="width:20%;height:38px;" src="inc/captcha.php">
               <span id="codeTips" class="fui-check"></span>
               </div>
             </div>

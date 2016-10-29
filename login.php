@@ -1,3 +1,31 @@
+<?php
+require_once("inc/global.php");
+
+$user = new JLAdmin();
+
+//登出
+if($_GET['action'] == 'out'){
+    $user->outCurrent();
+    header('Location:'.GURL_ROOT.'login.php');
+    exit;
+}
+
+//已登录处理
+$g_admin = $user->getCurrent();
+if($g_admin){
+    header('Location:'.GURL_ROOT.'index.php');
+    exit;
+}
+
+//是否跳转来源页
+$backurl = trim($_GET['backurl']);
+if($backurl){
+  $backFlag = 1;
+}else{
+  $backFlag = 2;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,28 +55,25 @@
             <h4>Welcome to <small>Mail App</small></h4>
           </div> -->
 
-          <div class="login-form">
+          <div class="login-form" style="height:auto;">
             <div class="form-group">
-              <input type="text" class="form-control login-field" value="" placeholder="Enter your name" id="login-name" />
+              <input id="mail" type="text" class="form-control login-field" value="" placeholder="邮箱" id="login-name" />
               <label class="login-field-icon fui-mail" for="login-name"></label>
             </div>
 
             <div class="form-group">
-              <input type="password" class="form-control login-field" value="" placeholder="Password" id="login-pass" />
+              <input id="pwd" type="password" class="form-control login-field" value="" placeholder="密码" id="login-pass" />
               <label class="login-field-icon fui-lock" for="login-pass"></label>
             </div>
-
-            <a class="btn btn-primary btn-lg btn-block" href="#">登陆</a>
-            <a class="login-link" href="#">忘记密码?</a>
+            <a class="btn btn-primary btn-lg btn-block" onclick="login()">登陆</a>
+            <a class="login-link" href="register.php">没有账号?注册一个</a>
           </div>
         </div>
 
 
         
       </div>
-    <div class="copyright">
-        <p>Copyright © 2016 ICHARM lnc. All Rights Reserved</p>
-    </div>
+    <?php require_once("copyright.php");?>
 
 
     <!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
@@ -56,6 +81,47 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/vendor/video.js"></script>
     <script src="js/flat-ui.min.js"></script>
+    <script type="text/javascript">
+      function login(){
+        data = {};
+        data.mail = $("#mail").val();
+        data.pwd = $("#pwd").val();
+        if(!data.mail){
+          alert("请输入用户名（邮箱）！");
+          return false;
+        }
+        if(!data.pwd){
+          alert("请输入密码!");
+          return false;
+        }
+
+        $.ajax({
+          'url':'control/login.php',
+          'type':'post',
+          'dataType':'json',
+          'data':data,
+          'success':function(ret){
+            if(ret.flag){
+              alert("登录成功");
+              if(1 == <?php echo $backFlag;?>){
+                window.location.href = "<?php echo $backurl;?>"
+              }else{
+                window.location.href='mailVerify.php';
+              }
+            }else{
+              alert(ret.msg);
+              return false;
+            }
+          },
+          'error':function(ret){
+            alert("网络错误,请稍后再试！");
+            return false;
+          },
+        })
+        return true;
+      }
+
+    </script>
 
   </body>
 </html>

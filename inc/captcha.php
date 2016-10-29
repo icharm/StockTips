@@ -1,7 +1,12 @@
 <?php
+/**
+ * @abstract GD2库绘制验证码
+ * @author ICHARM <icharm.me@outlook.com>
+ */
 
-
-session_start();
+if (!isset($_SESSION)) {
+	session_start();
+}
 //生成图片资源画布
 $image = imagecreatetruecolor(100, 30);
 $bgcolor = imagecolorallocate($image, 255, 255, 255);//#ffffff 纯白色
@@ -47,7 +52,8 @@ for($i=0; $i<3; $i++){
 	imageline($image, rand(1,99), rand(1,29), rand(1,29), rand(1,29), $lineColor);
 
 }
-$SESSION['authcode'] = $captchaCode;
+
+$_SESSION['authcode'] = $captchaCode;
 ob_clean(); 
 header('content-type: image/png');
 imagepng($image);

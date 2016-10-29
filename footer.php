@@ -49,6 +49,152 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/vendor/video.js"></script>
     <script src="js/flat-ui.min.js"></script>
+    <script type="text/javascript">
+
+
+        $("#sotck-code").blur(function(){
+          var data = {};
+          data.code = $("#sotck-code").val();
+          data.ac = "nameandprice";
+          if(data.code){
+            $.ajax({
+              'url':'control/stock_ajax.php',
+              'type':'get',
+              'dataType':'json',
+              'data': data,
+              //'async':false, //同步
+              'success': function(ret){
+                if(ret.flag){
+                  $("#stock-name").val(ret.data.name);
+                  $("#gPrice").val(ret.data.price);
+                }else{
+                  alert(ret.msg);
+                  $("#stock-name").val(null);
+                  $("#gPrice").val(null);
+                  return false;
+                }
+              },
+              'error':function(ret){
+                alert("网络错误，请稍后再试");
+                $("#stock-name").val(null);
+                $("#gPrice").val(null);
+                return false;
+              }
+            })
+          }else{
+            return false;
+          }
+        });
+
+        $("#rising").blur(function(){
+          var rising_price;
+          if(!$("#buy-price").val() && $("#rising").val()){
+            alert("请填写先买入价格");
+            $("#rising").val(null);
+            return false;
+          }
+          rising_price = Number($("#buy-price").val()) * (1 + Number($("#rising").val())/100);
+          $("#rising-price").val(rising_price.toFixed(4));
+          return false;
+        });
+
+        $("#drop").blur(function(){
+          var drop_price;
+          if(!$("#buy-price").val() && $("#drop").val()){
+            alert("请填写先买入价格");
+            $("#rising").val(null);
+            return false;
+          }
+          drop_price = Number($("#buy-price").val()) * (1 - Number($("#drop").val())/100);
+          $("#drop-price").val(drop_price.toFixed(4));
+          return false;
+        });
+
+
+
+        function addStockAction(){
+          var data = {};
+          data.code = $("#sotck-code").val();
+          data.name = $("#stock-name").val();
+          data.buy = $("#buy-price").val();
+          data.rising_range = $("#rising").val();
+          data.rising_price = $("#rising-price").val();
+          data.drop_range = $("#drop").val();
+          data.drop_price = $("#drop-price").val();
+
+          if(!data.code){
+            alert("请填写股票代码!");
+            return false;
+          }
+          if(!data.buy){
+            alert("请填写买入价格!");
+            return false;
+          }
+          if(!data.rising_range && !data.drop_range){
+            alert("预警涨幅和跌幅至少填写一项！");
+            return false;
+          }
+          if(!$("#gPrice").val()){
+            alert("获取该股数据异常，请稍后再试");
+            return false;
+          }
+
+          var r = confirm("确定提交？");
+          if(r == true){
+            $.ajax({
+              'url': 'control/addstock.php',
+              'type': 'post',
+              'dataType': 'json',
+              'data': data,
+              'success':function(retu){
+                if(retu.flag){
+                  alert("提交成功");
+                  window.location.href = "index.php";
+                }else{
+                  alert(retu.msg);
+                  return false;
+                }
+              },
+              'error': function(retu){
+                alert("网络异常，请稍后再试");
+                return false;
+              },
+            });
+          }else{
+            return false;
+          }
+        }
+
+        function deleteStock(code){
+          var data = {};
+          data.code = code;
+          var r = confirm("确定删除？");
+          if(r == true){
+            $.ajax({
+              'url':'control/deleteStock.php',
+              'type':'post',
+              'dataType':'json',
+              'data':data,
+              'success':function(ret){
+                if(ret.flag){
+                  alert("删除成功");
+                  window.location.href = "index.php";
+                }else{
+                  alert(ret.msg);
+                  return false;
+                }
+              },
+              'error':function(){
+                alert("删除失败，网络异常请稍后再试");
+                return false;
+              },
+            });
+          }else{
+            return false;
+          }
+        }
+
+      </script>
 
   </body>
 </html>

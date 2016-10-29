@@ -7,6 +7,7 @@ $g_userObj->checkLogin();
 //检查邮箱是否激活(已激活跳转主页)
 if($g_user['is_active'] !="0"){
   echo "<script>window.location.href='index.php'</script>";
+  exit();
 }
 
 $flag = 2;

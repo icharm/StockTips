@@ -5,6 +5,7 @@ $g_userObj->checkLogin();
 //检查邮箱是否激活
 if($g_user['is_active']=="0"){
   echo "<script>window.location.href='mailVerify.php'</script>";
+  exit();
 }
 //varDump($g_user);
 

@@ -30,6 +30,7 @@ $gdbconf = array(
 		'dbname' => 'stocktips',
 	),
 );
+//test
 
 // mail
 $mailconf = array(
